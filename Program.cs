@@ -1,7 +1,15 @@
+using Backend.Data;
+using Backend.Models;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddDbContext<AppDbContext>(options => 
+options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"),
+new MariaDbServerVersion(new Version(10, 5, 0))));
 
 var app = builder.Build();
 
