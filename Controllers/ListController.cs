@@ -20,11 +20,4 @@ public class ListController : Controller {
     public IActionResult Create() {
         return View();
     }
-
-    [HttpPost]
-    public IActionResult CreateList(List list) {
-        _db.Lists.Add(list);
-        _db.SaveChanges();
-        return RedirectToAction("Index");
-    }
 }

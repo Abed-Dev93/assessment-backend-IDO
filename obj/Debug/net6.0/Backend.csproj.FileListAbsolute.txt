@@ -32,3 +32,4 @@
 /home/abed/Desktop/Assessment-OSD/Backend/bin/Debug/net6.0/MySqlConnector.dll
 /home/abed/Desktop/Assessment-OSD/Backend/bin/Debug/net6.0/Pomelo.EntityFrameworkCore.MySql.dll
 /home/abed/Desktop/Assessment-OSD/Backend/obj/Debug/net6.0/Backend.csproj.CopyComplete
+/home/abed/Desktop/Assessment-OSD/Backend/bin/Debug/net6.0/System.Security.Permissions.dll

@@ -1,0 +1,19 @@
+@model Backend.Models.User;
+
+@{
+    Layout = null;
+}
+
+<form asp-controller="User" asp-action="Login" method="post">
+    <h1>Login</h1>
+    <input type="email" placeholder="Email" asp-for="Email" />
+    <input type="password" placeholder="Password" asp-for="Password" />
+    <button type="submit">Login</button>
+
+    @if (ViewData["validateMessage"] != null) {
+        <br />
+        <br />
+        <label>@ViewData["validateMessage"]</label>
+    }
+
+</form>
