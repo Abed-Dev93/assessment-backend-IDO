@@ -7,5 +7,5 @@ public class User {
     public string? Password { get; set; }
     public string? Avatar { get; set; }
 
-    public ICollection<List> Lists { get; set; } = new List<List>();
+    public ICollection<ListItem> ListItems { get; set; } = new List<ListItem>();
 }

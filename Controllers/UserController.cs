@@ -10,17 +10,24 @@ namespace Backend.Controllers;
 
 public class UserController : Controller {
 
+    private AppDbContext _db;
+
+    public UserController(AppDbContext db) {
+        _db = db;
+    }
+
     public IActionResult Login() {
         ClaimsPrincipal claimUser = HttpContext.User;
         if (claimUser.Identity.IsAuthenticated)
-            return RedirectToAction("Index", "List");
+            return RedirectToAction("Index", "ListItem");
         return View();
     }
 
     [HttpPost]
     public async Task<IActionResult> Login(User userLogin) {
 
-        if (userLogin.Email == "abed@gmail.com" && userLogin.Password == "abed0000") {
+        var userInfo = _db.Users.SingleOrDefault(user => user.Email == userLogin.Email);
+        if (userInfo != null && userLogin.Password == userInfo.Password) {
             List<Claim> claims = new List<Claim>() {
                 new Claim(ClaimTypes.NameIdentifier, userLogin.Email)
             };
@@ -32,7 +39,7 @@ public class UserController : Controller {
             };
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
                 new ClaimsPrincipal(claimsIdentity), properties);
-            return RedirectToAction("Index","List");
+            return RedirectToAction("Index", "ListItem");
         }
 
         ViewData["ValidateMessage"] = "Credentials Error";

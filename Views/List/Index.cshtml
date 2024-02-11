@@ -3,38 +3,3 @@
 @{
     ViewData["Title"] = "Lists";
 }
-
-@* <h2>Lists</h2>
-<div class='row'>
-    <div class='col-md-12'>
-        <a asp-action='Create' asp-controller="List" class="btn btn-success">Create List</a>
-    </div>
-</div>
-<div class='row'>
-    <div class='col-md-12'>
-        <table class='table'>
-            <thead>
-                <tr>
-                    <td>Title</td>
-                    <td>Category</td>
-                    <td>Date</td>
-                    <td>Estimate</td>
-                    <td>Unit</td>
-                    <td>Importance</td>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach(var item in Model) {
-                    <tr>
-                        <td>@item.Title</td>
-                        <td>@item.Category</td>
-                        <td>@item.Date</td>
-                        <td>@item.Estimate</td>
-                        <td>@item.Unit</td>
-                        <td>@item.Importance</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-</div> *@

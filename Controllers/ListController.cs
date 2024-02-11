@@ -1,10 +1,13 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using Backend.Models;
 using Backend.Data;
+using System.Security.Claims;
 
 namespace Backend.Controllers;
 
+[Authorize]
 public class ListController : Controller {
     private AppDbContext _db;
 
@@ -15,9 +18,5 @@ public class ListController : Controller {
     public IActionResult Index() {
         var lists = _db.Lists.ToList();
         return View(lists);
-    }
-
-    public IActionResult Create() {
-        return View();
     }
 }

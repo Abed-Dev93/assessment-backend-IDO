@@ -10,7 +10,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
 .AddCookie(option => {
     option.LoginPath = "/User/Login";
-    option.ExpireTimeSpan = TimeSpan.FromMinutes(20);
+    option.ExpireTimeSpan = TimeSpan.FromMinutes(1);
 });
 
 builder.Services.AddDbContext<AppDbContext>(options => 
@@ -40,4 +40,20 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=User}/{action=Login}/{id?}");
 
-app.Run();
+app.MapControllerRoute(
+    name: "List",
+    pattern: "{Controller=List}/{action=Index}/{id?}");
+
+app.MapControllerRoute(
+    name: "ListItem",
+    pattern: "{controller=ListItem}/{action=Index}/{id?}");
+
+app.MapControllerRoute(
+    name: "ListItemCreation",
+    pattern: "{controller=ListItem}/{action=CreateListItem}/{id?}");
+
+app.MapControllerRoute(
+    name: "ListItemEdition",
+    pattern: "{controller=ListItem}/{action=UpdateListItem}/{id?}");
+
+app.Run("http://localhost:4000");
