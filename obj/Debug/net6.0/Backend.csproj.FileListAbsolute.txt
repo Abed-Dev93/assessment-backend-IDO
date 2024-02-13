@@ -33,3 +33,4 @@
 /home/abed/Desktop/Assessment-OSD/Backend/obj/Debug/net6.0/ref/Backend.dll
 /home/abed/Desktop/Assessment-OSD/Backend/obj/Debug/net6.0/Backend.pdb
 /home/abed/Desktop/Assessment-OSD/Backend/obj/Debug/net6.0/Backend.genruntimeconfig.cache
+/home/abed/Desktop/Assessment-OSD/Backend/bin/Debug/net6.0/Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll

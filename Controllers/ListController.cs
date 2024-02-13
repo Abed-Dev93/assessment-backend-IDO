@@ -15,6 +15,7 @@ public class ListController : Controller {
         _db = db;
     }
 
+    //Fetching all the lists from the database
     public IActionResult Index() {
         var lists = _db.Lists.ToList();
         return View(lists);

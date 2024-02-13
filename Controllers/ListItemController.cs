@@ -1,7 +1,6 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using System.Text;
 using Backend.Models;
 using Backend.Data;
 using System.Security.Claims;
@@ -12,13 +11,18 @@ namespace Backend.Controllers;
 [Authorize]
 public class ListItemController : Controller {
     private AppDbContext _db;
+    private UserManager<User> _userManager;
 
-    public ListItemController(AppDbContext db) {
+    //Dealing with Database through DbContext
+    public ListItemController(AppDbContext db, UserManager<User> userManager) {
         _db = db;
+        _userManager = userManager;
     }
 
+    //Fetching all List's Items based on the ID of the logged in user
     public IActionResult Index() {
         string userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        Console.WriteLine("USER>>>>>>>", userIdString);
         if (int.TryParse(userIdString, out int userId)) {
             var listItems = _db.ListItems
                 .Where(listItem => listItem.UserId == userId)
@@ -29,6 +33,7 @@ public class ListItemController : Controller {
             return RedirectToAction("Error");
     }
 
+    //Create a new list's item by an authorized user
     [HttpPost]
     public IActionResult CreateListItem(ListItem listItem) {
         string userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -41,6 +46,7 @@ public class ListItemController : Controller {
         return RedirectToAction("Index");
     }
 
+    //Update a specified list's item by its authorized user
     [HttpPost]
     public IActionResult UpdateListItem(ListItem editedListItem) {
         string userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
