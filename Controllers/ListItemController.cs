@@ -21,11 +21,11 @@ public class ListItemController : Controller {
 
     //Fetching all List's Items based on the ID of the logged in user
     public IActionResult Index() {
-        string userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        Console.WriteLine("USER>>>>>>>", userIdString);
-        if (int.TryParse(userIdString, out int userId)) {
+        var userEmail = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var user = _userManager.FindByEmailAsync(userEmail).Result;
+        if (user != null) {
             var listItems = _db.ListItems
-                .Where(listItem => listItem.UserId == userId)
+                .Where(listItem => listItem.UserId == user.Id)
                 .ToList();
             return View(listItems);
         }
@@ -35,11 +35,12 @@ public class ListItemController : Controller {
 
     //Create a new list's item by an authorized user
     [HttpPost]
-    public IActionResult CreateListItem(ListItem listItem) {
-        string userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        if (int.TryParse(userIdString, out int userId)) {
-            listItem.UserId = userId;
-            listItem.ListId = 1;
+    public IActionResult Create(ListItem listItem) {
+        var userEmail = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var user = _userManager.FindByEmailAsync(userEmail).Result;
+        if (user != null) {
+            listItem.UserId = user.Id;
+            listItem.ListId = "1";
             _db.ListItems.Add(listItem);
             _db.SaveChanges();
         }
@@ -48,10 +49,11 @@ public class ListItemController : Controller {
 
     //Update a specified list's item by its authorized user
     [HttpPost]
-    public IActionResult UpdateListItem(ListItem editedListItem) {
-        string userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        if (int.TryParse(userIdString, out int userId)) {
-            var currentListItem = _db.ListItems.SingleOrDefault(listItem => listItem.Id == editedListItem.Id && listItem.UserId == userId);
+    public IActionResult Update(ListItem editedListItem) {
+        var userEmail = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var user = _userManager.FindByEmailAsync(userEmail).Result;
+        if (user != null) {
+            var currentListItem = _db.ListItems.FirstOrDefault(listItem => listItem.Id == editedListItem.Id && listItem.UserId == user.Id);
             if (currentListItem != null) {
             currentListItem.Title = editedListItem.Title;
             currentListItem.Category = editedListItem.Category;

@@ -27,13 +27,6 @@ public class HomeController : Controller
         return View();
     }
 
-    //Request for logging the user out and disable his/her cookie, then redirect him/her to the default page
-    public async Task<IActionResult> Logout()
-    {
-        await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-        return RedirectToAction("Login", "User");
-    }
-
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {

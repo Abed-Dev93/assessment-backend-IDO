@@ -5,3 +5,37 @@
 }
 
 <h1>Lists</h1>
+@* <div class='row'>
+    <div class='col-md-12'>
+        <button asp-action='Create' asp-controller="ListItem" class="btn btn-success">Create ListItem</button>
+    </div>
+</div> *@
+<div class='row'>
+    <div class='col-md-12'>
+        <table class='table'>
+            <thead>
+                <tr>
+                    <td>Title</td>
+                    <td>Actions</td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var item in Model) {
+                    <tr>
+                        <td>@item.Title</td>
+                        <td>
+                            <a asp-controller="ListItem" asp-action="Index" asp-route-id="@item.Id">View ListItems</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+<form asp-controller="User" asp-action="Logout" method="post">
+    <h1>Logout</h1>
+    <button type="submit">Logout</button>
+</form>

@@ -15,6 +15,7 @@ public class ListController : Controller {
         _db = db;
     }
 
+    [AllowAnonymous]
     //Fetching all the lists from the database
     public IActionResult Index() {
         var lists = _db.Lists.ToList();

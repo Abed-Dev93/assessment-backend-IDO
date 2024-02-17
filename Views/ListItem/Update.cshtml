@@ -1,0 +1,20 @@
+@model Backend.Models.ListItem;
+
+@{
+    Layout = null;
+}
+
+<form asp-controller="ListItem" asp-action="Update" method="post">
+    <h1>Create ListItem </h1>
+    <input type="text" placeholder="title" asp-for="Title" />
+    <input type="text" placeholder="category" asp-for="Category" />
+    <input type="date" placeholder="date" asp-for="Date" />
+    <input type="number" placeholder="estimate" asp-for="Estimate" />
+    <input type="text" placeholder="unit" asp-for="Unit" />
+    <select asp-for="Importance">
+        <option value="low">LOW</option>
+        <option value="medium">Medium</option>
+        <option value="high">High</option>
+    </select>
+    <button type="submit">Update</button>
+</form>

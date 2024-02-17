@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Backend.Models;
-using Microsoft.Extensions.Options;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,17 +16,17 @@ new MariaDbServerVersion(new Version(10, 5, 0)));
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddCors(options => 
-{
-    options.AddPolicy("AllowLocalhost3000", builder => {
+builder.Services.AddCors(options => {
+    options.AddDefaultPolicy(builder => {
         builder.WithOrigins("http://localhost:3000")
-            .AllowAnyMethod()
-            .AllowAnyHeader();
+        .AllowAnyMethod()
+        .AllowAnyHeader()
+        .AllowCredentials();
     });
 });
 
 //Identifying user ID after logging in
-builder.Services.AddIdentity<User, Backend.Models.IdentityRole>()
+builder.Services.AddIdentity<User, IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
 
@@ -36,7 +36,8 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 .AddCookie(option =>
 {
     option.LoginPath = "/User/Login";
-    option.ExpireTimeSpan = TimeSpan.FromHours(12);
+    option.AccessDeniedPath = "/User/Login";
+    option.ExpireTimeSpan = TimeSpan.FromMinutes(1);
 });
 
 var app = builder.Build();
@@ -53,21 +54,22 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-app.UseCors("AllowLocalhost3000");
+app.UseCors();
 
 app.UseAuthentication();
 
 app.UseAuthorization();
 
+
+// //Register route
+// app.MapControllerRoute(
+//     name: "Register",
+//     pattern: "{controller=User}/{action=Register}/{id?}");
+
 //Default route
 app.MapControllerRoute(
-    name: "default/Login",
+    name: "User",
     pattern: "{controller=User}/{action=Login}/{id?}");
-
-//Logout route
-app.MapControllerRoute(
-    name: "Logout",
-    pattern: "{controller=User}/{action=Logout}/{id?}");
 
 //User fetch route
 app.MapControllerRoute(
@@ -87,11 +89,16 @@ app.MapControllerRoute(
 //ListItem creation route
 app.MapControllerRoute(
     name: "ListItemCreation",
-    pattern: "{controller=ListItem}/{action=CreateListItem}/{id?}");
+    pattern: "{controller=ListItem}/{action=Create}/{id?}");
 
 //ListItem update route
 app.MapControllerRoute(
     name: "ListItemEdition",
-    pattern: "{controller=ListItem}/{action=UpdateListItem}/{id?}");
+    pattern: "{controller=ListItem}/{action=Update}/{id?}");
+
+//Logout route
+app.MapControllerRoute(
+    name: "Logout",
+    pattern: "{controller=User}/{action=Logout}/{id?}");
 
 app.Run("http://localhost:4000");
